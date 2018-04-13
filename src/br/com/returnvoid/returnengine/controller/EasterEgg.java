@@ -7,7 +7,7 @@ public class EasterEgg implements KeyListener{
 	private String triggerSequence;
 	private Runnable runnable;
 	
-	public EasterEgg(String sequence, Runnable runnable) {
+	public EasterEgg(String triggerSequence, Runnable runnable) {
 		this.triggerSequence = triggerSequence;
 		this.runnable = runnable;
 	}

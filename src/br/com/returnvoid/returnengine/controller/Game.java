@@ -1,32 +1,33 @@
 package br.com.returnvoid.returnengine.controller;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.util.Random;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.image.BufferStrategy;
 
-import br.com.returnvoid.returnengine.view.Window;
+import javax.swing.JFrame;
 
-
-public class Game{
+public abstract class Game{
 	private boolean running = false;
 	private Thread threadTps, threadFps;
-	private Window window;
+	private JFrame window;
 	private GameSpeedTracker speedTracker;
 
-	public Game() {
-		this.speedTracker = new GameSpeedTracker(30,60);
-		this.window = new Window(new Dimension(800, 600));
+	public Game(int tps, int maxFps, JFrame window) {
+		this.speedTracker = new GameSpeedTracker(tps,maxFps);
+		this.window = window;
+		
 		this.threadTps = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				runTPS();
+				runTps();
 			}
 		});
 		
 		this.threadFps = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				runFPS();
+				runFps();
 			}
 		});
 	}
@@ -35,33 +36,48 @@ public class Game{
 		this.running = false;
 	}
 	
-	public void runTPS() {
+	public void runTps() {
 		while(this.isRunning()) {
-			this.speedTracker.start();
-			
-			this.speedTracker.stop();
+			this.speedTracker.startTps();
+			this.onLoop();
+			this.speedTracker.stopTps();
+			this.speedTracker.ensureTps();
 		}
 	}
 	
-	public void runFPS() {
+	public void runFps() {
 		while(this.isRunning()) {
+			this.speedTracker.startFps();
 			System.out.println("FPS running");
-			Random r = new Random();
-			try {
-				this.window.getContentPane().setBackground(new Color(
-						r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-				this.window.repaint();
-				this.window.revalidate();
-				Thread.sleep(1 * 200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			BufferStrategy bufferStrategy = window.getBufferStrategy();
+			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
+		    g.setColor(Color.black);
+		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
+		    
+		    this.onRender(g);
+		    
+		    g.setColor(Color.black);
+	        g.fillRect(0, 0, 200,16);
+	        g.setColor(Color.white);
+	        g.setFont(new Font("", Font.BOLD, 12));
+	        g.drawString(this.speedTracker.getTps() + " tps", 1, 12);
+	        g.drawString(this.speedTracker.getFps() + " fps", 1, 24);
+	        
+	        g.dispose();
+	        bufferStrategy.show();
+	        
+			this.speedTracker.stopFps();
+			this.speedTracker.ensureFps();
 		}
 	}
-
+	protected abstract void onLoop();
+	protected abstract void onRender(Graphics2D g);
 
 	public void run() {
 		this.running = true;
+		this.window.setVisible(true);
+		this.window.createBufferStrategy(2);
+		
 		this.threadFps.start();
 		this.threadTps.start();
 	}
@@ -79,11 +95,27 @@ public class Game{
 			this.max_fps = max_fps;
 		}
 		
-		public void start() {
+		public int getTps() {
+			return 0; //TODO calcular
+		}
+		
+		public int getFps() {
+			return 0; //TODO calcular
+		}
+		
+		public void startFps() {
 			// TODO inicia cronometro
 		}
 		
-		public void stop() {
+		public void startTps() {
+			// TODO inicia cronometro
+		}
+		
+		public void stopFps() {
+			// TODO para cronometro
+		}
+		
+		public void stopTps() {
 			// TODO para cronometro
 		}
 		
