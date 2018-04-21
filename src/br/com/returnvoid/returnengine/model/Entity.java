@@ -1,13 +1,18 @@
 package br.com.returnvoid.returnengine.model;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+
+import br.com.returnvoid.returnengine.view.Sprite;
 
 public abstract class Entity {
 	private int state;
 	private Point coordinate;
 	private Point speed;
 	private Dimension dimension;
+	private Sprite sprite;
 	
 	public abstract void updateLogic();
 	public abstract void updateGraphic();
@@ -36,4 +41,6 @@ public abstract class Entity {
 	public void setDimension(Dimension dimension) {
 		this.dimension = dimension;
 	}
+	
+	public abstract void paint(Graphics2D g);
 }
