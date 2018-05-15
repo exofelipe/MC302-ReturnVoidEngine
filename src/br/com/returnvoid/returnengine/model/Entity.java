@@ -3,6 +3,7 @@ package br.com.returnvoid.returnengine.model;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import br.com.returnvoid.returnengine.view.Sprite;
@@ -17,6 +18,11 @@ public abstract class Entity {
 	public abstract void updateLogic();
 	public abstract void updateGraphic();
 	public abstract boolean checkColision(Entity entity);
+	
+	public Rectangle getBounds() {
+        return new Rectangle((int)coordinate.getX(), (int)coordinate.getY(), (int)dimension.getWidth(), (int)dimension.getHeight());
+    }	
+	
 	public int getState() {
 		return state;
 	}
