@@ -70,11 +70,8 @@ public class Paddle extends Entity implements KeyListener{
 	}
 	
 	@Override
-	public boolean checkColision(Entity entity) {
-		Rectangle r1 = this.getBounds();			
-		Rectangle r2 = entity.getBounds();
-			
-		if(r1.intersects(r2)) {
+	public boolean checkColision(Entity entity) {			
+		if(this.getBounds().intersects(entity.getBounds())) {
 			return true;
 		}				
 		return false;
