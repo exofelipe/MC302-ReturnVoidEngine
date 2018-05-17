@@ -18,8 +18,9 @@ import br.com.returnvoid.returnengine.model.Entity;
 public class Ball extends Entity{
 	public Ball() {
 		this.setCoordinate(new Point(200, 200));
-		this.setSpeed(new Point(2, -2));
-		this.setDimension(new Dimension(5, 5));
+		this.vx = 0.25;
+		this.vy = -0.25;
+		this.setDimension(new Dimension(10, 10));
 	}
 	//TODO tudo
 	@Override
@@ -36,16 +37,20 @@ public class Ball extends Entity{
 
 	@Override
 	public boolean checkColision(Entity entity) {
-		// TODO Auto-generated method stub
-		return new Random().nextInt(20)< 2;
-		//return false;
+		Rectangle r1 = this.getBounds();			
+		Rectangle r2 = entity.getBounds();
+			
+		if(r1.intersects(r2)) {
+			return true;
+		}				
+		return false;
 	}
 
 	@Override
 	public void paint(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.white);
-	    g.fillRect(this.getCoordinate().x, this.getCoordinate().y, 
+		g.setColor(Color.blue);
+	    g.fillOval(this.getCoordinate().x, this.getCoordinate().y, 
 	    		this.getDimension().width, this.getDimension().height);
 	}
 

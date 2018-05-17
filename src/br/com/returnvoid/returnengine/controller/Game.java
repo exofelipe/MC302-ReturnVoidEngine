@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 public abstract class Game{
 	private boolean running = false;
 	private Thread threadTps, threadFps;
-	private JFrame window;
+	protected JFrame window;
 	private GameSpeedTracker speedTracker;
 
 	public Game(int tps, int maxFps, JFrame window) {
@@ -18,9 +18,9 @@ public abstract class Game{
 		this.window = window;
 		//this.window.setUndecorated(true);
 		//this.window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		this.window.setIgnoreRepaint(true);
+		//this.window.setIgnoreRepaint(true);
 		this.window.setLocation(100, 100);
-		this.window.setVisible(true);
+		//this.window.setVisible(true);
 		
 		this.threadTps = new Thread(new Runnable() {
 			@Override
@@ -55,16 +55,16 @@ public abstract class Game{
 			this.speedTracker.startFps();
 			BufferStrategy bufferStrategy = window.getBufferStrategy();
 			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		    g.setColor(Color.black);
+		    g.setColor(Color.green);
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
 		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
-		    g.setColor(Color.white);
+		    /*g.setColor(Color.white);
 	        g.fillRect(0, 30, 40, 30);
 	        g.setColor(Color.black);
 	        g.setFont(new Font("", Font.BOLD, 12));
 	        g.drawString(this.speedTracker.getTps() + " tps", 1, 42);
-	        g.drawString(this.speedTracker.getFps() + " fps", 1, 54);
+	        g.drawString(this.speedTracker.getFps() + " fps", 1, 54);*/
 	        
 	        g.dispose();
 	        bufferStrategy.show();
@@ -125,7 +125,7 @@ public abstract class Game{
 		public void ensureTps() {
 			// TODO Thread.sleep para o que faltar do cronometro até o tps
 			try {
-				Thread.sleep(100);
+				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -135,7 +135,7 @@ public abstract class Game{
 		public void ensureFps() {
 			// TODO se o loop estiver muito rapido dorme um pouco
 			try {
-				Thread.sleep(100);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
