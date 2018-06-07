@@ -49,7 +49,7 @@ public class Ball extends Entity{
 	@Override
 	public void paint(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.blue);
+		g.setColor(Color.WHITE);
 	    g.fillOval(this.getCoordinate().x, this.getCoordinate().y, 
 	    		this.getDimension().width, this.getDimension().height);
 	}

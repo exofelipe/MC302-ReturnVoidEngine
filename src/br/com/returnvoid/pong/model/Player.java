@@ -6,6 +6,7 @@ public class Player {
 	
 	public Player(String nome) {
 		this.setNome(nome);
+		points = 0;
 	}
 	
 	public String getNome() {
