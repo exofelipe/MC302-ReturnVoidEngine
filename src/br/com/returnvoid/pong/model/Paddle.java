@@ -86,7 +86,7 @@ public class Paddle extends Entity implements KeyListener{
 	@Override
 	public void paint(Graphics2D g) {
 		// TODO Auto-generated method stub
-		g.setColor(Color.red);
+		g.setColor(Color.WHITE);
 	    g.fillRect(this.getCoordinate().x, this.getCoordinate().y, 
 	    		this.getDimension().width, this.getDimension().height);
 	}

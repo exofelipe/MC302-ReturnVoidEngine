@@ -55,7 +55,7 @@ public abstract class Game{
 			this.speedTracker.startFps();
 			BufferStrategy bufferStrategy = window.getBufferStrategy();
 			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		    g.setColor(Color.green);
+		    g.setColor(Color.BLACK);
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
 		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
