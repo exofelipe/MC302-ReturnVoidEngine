@@ -43,10 +43,10 @@ public abstract class Game{
 	
 	public void runTps() {
 		while(this.isRunning()) {
-			this.speedTracker.startTps();
+			this.speedTracker.startTps();			
 			this.onLoop();
-			this.speedTracker.stopTps();
-			this.speedTracker.ensureTps();
+			this.speedTracker.stopTps();			
+			this.speedTracker.ensureTps();			
 		}
 	}
 	
@@ -59,18 +59,18 @@ public abstract class Game{
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
 		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
-		    /*g.setColor(Color.white);
-	        g.fillRect(0, 30, 40, 30);
+		    g.setColor(Color.white);
+	        g.fillRect(0, 30, 60, 30);
 	        g.setColor(Color.black);
 	        g.setFont(new Font("", Font.BOLD, 12));
-	        g.drawString(this.speedTracker.getTps() + " tps", 1, 42);
-	        g.drawString(this.speedTracker.getFps() + " fps", 1, 54);*/
+	        g.drawString(this.speedTracker.getTps() + " tps", 10, 42);
+	        g.drawString(this.speedTracker.getFps() + " fps", 10, 54);
 	        
 	        g.dispose();
 	        bufferStrategy.show();
 	        
 			this.speedTracker.stopFps();
-			this.speedTracker.ensureFps();
+			this.speedTracker.ensureFps();			
 		}
 	}
 	protected abstract void onLoop();
@@ -91,41 +91,55 @@ public abstract class Game{
 	
 	
 	private class GameSpeedTracker {
-		private int tps;
-		private int max_fps;
-		public GameSpeedTracker(int tps, int max_fps) {
-			this.tps = tps;
+		public final double NANO_SECOND = 1e9;
+		
+		private int max_fps;		
+		private double startTimeFps;
+		private long sleepTimeFps;
+		private double loopTimeFps;
+		private double expectedLoopTimeFps;
+		
+		private int expectedTps;		
+		private double startTimeTps;
+		private long sleepTimeTps;
+		private double loopTimeTps;
+		private double expectedLoopTimeTps;
+		
+		
+		public GameSpeedTracker(int expectedTps, int max_fps) {
+			this.expectedTps = expectedTps;
 			this.max_fps = max_fps;
 		}
 		
-		public int getTps() {
-			return 0; //TODO calcular
+		public int getTps() {				
+			return (int)(1/((this.loopTimeTps + this.sleepTimeTps*1e6)/this.NANO_SECOND));
 		}
 		
-		public int getFps() {
-			return 0; //TODO calcular
+		public int getFps() {			
+			return (int)(1/((this.loopTimeFps + this.sleepTimeFps*1e6)/this.NANO_SECOND));
 		}
 		
 		public void startFps() {
-			// TODO inicia cronometro
+			this.startTimeFps = System.nanoTime();				
 		}
 		
 		public void startTps() {
-			// TODO inicia cronometro
+			this.startTimeTps = System.nanoTime();
 		}
 		
 		public void stopFps() {
-			// TODO para cronometro
+			this.loopTimeFps = (System.nanoTime() - this.startTimeFps);
 		}
 		
 		public void stopTps() {
-			// TODO para cronometro
+			this.loopTimeTps = (System.nanoTime() - this.startTimeTps);
 		}
 		
 		public void ensureTps() {
-			// TODO Thread.sleep para o que faltar do cronometro até o tps
+			this.expectedLoopTimeTps = (this.NANO_SECOND / this.expectedTps);
+			this.sleepTimeTps = (long)((this.expectedLoopTimeTps - this.loopTimeTps)/1e6);				
 			try {
-				Thread.sleep(2);
+				Thread.sleep(this.sleepTimeTps);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -133,14 +147,17 @@ public abstract class Game{
 		}
 		
 		public void ensureFps() {
-			// TODO se o loop estiver muito rapido dorme um pouco
+			this.expectedLoopTimeFps = (this.NANO_SECOND / this.max_fps);	
+			this.sleepTimeFps = (long)((this.expectedLoopTimeFps - this.loopTimeFps)/1e6);					
 			try {
-				Thread.sleep(50);
+				if(this.sleepTimeFps > 0)					
+					Thread.sleep(this.sleepTimeFps);				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}		
+		
 	}
 }
 
