@@ -25,10 +25,11 @@ import br.com.returnvoid.pong.model.Player;
 public class MainScreen extends JFrame{
 	private JPanel pnlLogo, pnlPlayers;
 	private JTextField player1Name, player2Name;
-	private JButton btnStart, btnClose;
+	private JButton btnStart, btnExit;
 	public MainScreen() {
 		ImageIcon logo = new ImageIcon(getClass().getResource("logo.png"));
-		ImageIcon button = new ImageIcon(getClass().getResource("button.png"));
+		ImageIcon buttonStart = new ImageIcon(getClass().getResource("playButton.png"));
+		ImageIcon buttonExit = new ImageIcon(getClass().getResource("exitButton.png"));
 		this.setTitle("JAVA PONG - MC302 - ReturnVoid");
 		this.setLayout(new GridLayout(2, 1));
 		
@@ -38,7 +39,7 @@ public class MainScreen extends JFrame{
 		pnlLogo.setLayout(new GridLayout(1, 1));
 		pnlLogo.add(new JLabel(logo));
 		pnlPlayers = new JPanel();
-		pnlPlayers.setLayout(new GridLayout(3,3));
+		pnlPlayers.setLayout(new GridLayout(2,2));
 		pnlPlayers.setBackground(Color.BLACK);
 		
 		player1Name = new JTextField("Player 01");
@@ -59,7 +60,7 @@ public class MainScreen extends JFrame{
 		pnlPlayers.add(player2Name);
 		
 		btnStart = new JButton();
-		btnStart.setIcon(button);
+		btnStart.setIcon(buttonStart);
 		btnStart.setBackground(Color.BLACK);
 		btnStart.setBorderPainted(false);		
 		btnStart.setFocusPainted(false);
@@ -83,6 +84,21 @@ public class MainScreen extends JFrame{
 			
 		});
 		pnlPlayers.add(btnStart);
+		
+		btnExit = new JButton();
+		btnExit.setIcon(buttonExit);
+		btnExit.setBackground(Color.BLACK);
+		btnExit.setBorderPainted(false);		
+		btnExit.setFocusPainted(false);
+		btnExit.setContentAreaFilled(false);
+		btnExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
+		pnlPlayers.add(btnExit);
 		
 		this.add(pnlLogo);
 		this.add(pnlPlayers);

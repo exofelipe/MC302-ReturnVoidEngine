@@ -1,4 +1,4 @@
-package br.com.returnvoid.returnengine.controller;
+/*package br.com.returnvoid.returnengine.controller;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
@@ -83,4 +83,4 @@ public class ImageManager {
         BufferedImage img = sheet.getSubimage(x, y, w, h);
         return img;
     }
-}
+}*/

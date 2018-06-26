@@ -1,4 +1,4 @@
-package br.com.returnvoid.returnengine.view;
+/*package br.com.returnvoid.returnengine.view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,3 +14,4 @@ public class Sprite {
 		return null;
 	}
 }
+*/

@@ -6,14 +6,14 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import br.com.returnvoid.returnengine.view.Sprite;
+//import br.com.returnvoid.returnengine.view.Sprite;
 
 public abstract class Entity {
 	private int state;
 	public double x, y;
 	public double vx, vy;
 	private Dimension dimension;
-	private Sprite sprite;
+	//private Sprite sprite;
 	
 	public abstract void updateLogic();
 	public abstract void updateGraphic();

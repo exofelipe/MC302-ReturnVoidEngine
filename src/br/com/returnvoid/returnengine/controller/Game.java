@@ -55,7 +55,7 @@ public abstract class Game{
 			this.speedTracker.startFps();
 			BufferStrategy bufferStrategy = window.getBufferStrategy();
 			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		    g.setColor(Color.BLACK);
+		    g.setColor(Color.black);
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
 		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
@@ -91,7 +91,7 @@ public abstract class Game{
 	
 	
 	private class GameSpeedTracker {
-		public final double NANO_SECOND = 1e9;
+		public final double MILI_SECOND = 1e3;
 		
 		private int max_fps;		
 		private double startTimeFps;
@@ -112,34 +112,36 @@ public abstract class Game{
 		}
 		
 		public int getTps() {				
-			return (int)(1/((this.loopTimeTps + this.sleepTimeTps*1e6)/this.NANO_SECOND));
+			return (int)(1/((this.loopTimeTps + this.sleepTimeTps)/this.MILI_SECOND));
 		}
 		
 		public int getFps() {			
-			return (int)(1/((this.loopTimeFps + this.sleepTimeFps*1e6)/this.NANO_SECOND));
+			return (int)(1/((this.loopTimeFps + this.sleepTimeFps)/this.MILI_SECOND));
 		}
 		
 		public void startFps() {
-			this.startTimeFps = System.nanoTime();				
+			this.startTimeFps = System.currentTimeMillis();				
 		}
 		
 		public void startTps() {
-			this.startTimeTps = System.nanoTime();
+			this.startTimeTps = System.currentTimeMillis();			
 		}
 		
 		public void stopFps() {
-			this.loopTimeFps = (System.nanoTime() - this.startTimeFps);
+			this.loopTimeFps = (System.currentTimeMillis() - this.startTimeFps);
 		}
 		
 		public void stopTps() {
-			this.loopTimeTps = (System.nanoTime() - this.startTimeTps);
+			this.loopTimeTps = (System.currentTimeMillis() - this.startTimeTps);
 		}
 		
 		public void ensureTps() {
-			this.expectedLoopTimeTps = (this.NANO_SECOND / this.expectedTps);
-			this.sleepTimeTps = (long)((this.expectedLoopTimeTps - this.loopTimeTps)/1e6);				
+			this.expectedLoopTimeTps = (this.MILI_SECOND / this.expectedTps);
+			this.sleepTimeTps = Math.round((this.expectedLoopTimeTps - this.loopTimeTps));	
+			//System.out.println("loop: " + this.sleepTimeTps);
 			try {
-				Thread.sleep(this.sleepTimeTps);
+				if(this.sleepTimeTps > 0)		
+					Thread.sleep(this.sleepTimeTps);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -147,8 +149,8 @@ public abstract class Game{
 		}
 		
 		public void ensureFps() {
-			this.expectedLoopTimeFps = (this.NANO_SECOND / this.max_fps);	
-			this.sleepTimeFps = (long)((this.expectedLoopTimeFps - this.loopTimeFps)/1e6);					
+			this.expectedLoopTimeFps = (this.MILI_SECOND / this.max_fps);	
+			this.sleepTimeFps =  Math.round((this.expectedLoopTimeFps - this.loopTimeFps));					
 			try {
 				if(this.sleepTimeFps > 0)					
 					Thread.sleep(this.sleepTimeFps);				
@@ -160,6 +162,5 @@ public abstract class Game{
 		
 	}
 }
-
 
 

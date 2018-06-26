@@ -1,25 +1,21 @@
 package br.com.returnvoid.pong.controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.Console;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import br.com.returnvoid.pong.model.Ball;
 import br.com.returnvoid.pong.model.Paddle;
 import br.com.returnvoid.pong.model.Player;
+import br.com.returnvoid.pong.view.EndScreen;
 import br.com.returnvoid.returnengine.controller.Game;
 
 public class PongGame extends Game{
@@ -28,9 +24,10 @@ public class PongGame extends Game{
 	Paddle paddle1, paddle2;
 	Player player1, player2;
 	int p1;
-	int p2;
+	int p2;	
+	
 	public PongGame(JFrame window, Player player1, Player player2) {
-		super(30, 30, window);
+		super(600, 30, window);
 		this.player1 = player1;
 		this.player2 = player2;
 		Thread tr = new Thread(new Runnable() {
@@ -103,12 +100,36 @@ public class PongGame extends Game{
 			ball.paint(g);
 		paddle1.paint(g);
 		paddle2.paint(g);
-		//System.out.println("On Render");
+		
+		Font s = new Font("Gamer", Font.BOLD, 150);
+		g.setFont(s);
+		g.setColor(Color.WHITE);
+		
+		String score = Integer.toString(player1.getPoints());
+		
+		g.drawString(score, 240, 125);
+		score = Integer.toString(player2.getPoints());	 
+		g.drawString(score, 520, 125);
+		
+		s = new Font("Gamer", Font.BOLD, 50);
+		g.setFont(s);
+		
+		g.drawString(player1.getNome(),  75, 550);		
+		g.drawString(player2.getNome(),  525, 550);
+		
+		if(player1.getPoints() == 10 || player2.getPoints() == 10) {
+			this.stop();
+			super.window.dispose();
+			EndScreen endScreen = new EndScreen(player1, player2);
+			endScreen.setSize(new Dimension(800, 600));
+			endScreen.setVisible(true);
+		}
 	}
 	
 	Random random = new Random();
 	@Override
 	protected void onLoop() {
+		
 		for (Ball ball: balls) {
 			ball.x += ball.vx;
 			ball.y += ball.vy;
@@ -159,15 +180,7 @@ public class PongGame extends Game{
 				ball.vx = (random.nextDouble() * 0.6) + 0.4 *(random.nextBoolean()? -1: 1);
 				ball.vy = random.nextDouble()/2;
 			}
-			if(player1.getPoints() != p1 || player2.getPoints() != p2) {
-				System.out.println(player1.getNome()+" " + player1.getPoints());
-				System.out.println(player2.getNome()+" "+ player2.getPoints());
-				p1 = player1.getPoints();
-				p2 = player2.getPoints();
-			}
-			if(player1.getPoints() > 10 || player2.getPoints() > 10) {
-				this.stop();
-			}
+			
 		}
 	}
 
