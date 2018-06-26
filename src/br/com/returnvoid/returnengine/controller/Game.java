@@ -18,7 +18,7 @@ public abstract class Game{
 		this.window = window;
 		//this.window.setUndecorated(true);
 		//this.window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		//this.window.setIgnoreRepaint(true);
+		this.window.setIgnoreRepaint(true);
 		this.window.setLocation(100, 100);
 		//this.window.setVisible(true);
 		
@@ -55,7 +55,7 @@ public abstract class Game{
 			this.speedTracker.startFps();
 			BufferStrategy bufferStrategy = window.getBufferStrategy();
 			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		    g.setColor(Color.black);
+		    g.setColor(Color.BLACK);
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
 		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
@@ -67,8 +67,12 @@ public abstract class Game{
 	        g.drawString(this.speedTracker.getFps() + " fps", 10, 54);
 	        
 	        g.dispose();
-	        bufferStrategy.show();
-	        
+	        try {
+	        	bufferStrategy.show();
+			}catch (java.lang.IllegalStateException e) {
+				//Essa exceção pode ser ignorada, ocorre quando finaliza-se o jogo
+				//Enquanto essa thread ocorre
+			}	
 			this.speedTracker.stopFps();
 			this.speedTracker.ensureFps();			
 		}
@@ -143,7 +147,6 @@ public abstract class Game{
 				if(this.sleepTimeTps > 0)		
 					Thread.sleep(this.sleepTimeTps);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -155,12 +158,12 @@ public abstract class Game{
 				if(this.sleepTimeFps > 0)					
 					Thread.sleep(this.sleepTimeFps);				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}		
 		
 	}
 }
+
 
 

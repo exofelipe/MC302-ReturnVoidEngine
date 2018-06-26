@@ -4,19 +4,32 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class EasterEgg implements KeyListener{
-	private String triggerSequence;
+	private String triggerSequence, typedSequence;
 	private Runnable runnable;
 	
 	public EasterEgg(String triggerSequence, Runnable runnable) {
 		this.triggerSequence = triggerSequence;
 		this.runnable = runnable;
+		
+		this.typedSequence = "";
 	}
-	//TODO cada vez que uma tecla for apertada vá verificando se está na sequencia
-	//Caso complete a sequencia, execute o runnable
-	//Caso tecla fora da sequencia, resete
+	/*
+	 * Cada vez que uma tecla é apertada a sequencia de EasterEgg é monitorada.
+	 * Caso complete, o objeto Runnable é disparado em uma nova Thread
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub	
+		System.out.println("Typed "+ typedSequence+ Character.toLowerCase(e.getKeyChar()));
+		if(triggerSequence.startsWith(typedSequence + Character.toLowerCase(e.getKeyChar()))) {
+			typedSequence += e.getKeyChar();
+			System.out.println(typedSequence);
+			if(triggerSequence.equals(typedSequence)) {
+				new Thread(this.runnable).start();
+				typedSequence = "";
+			}
+		}else {
+			this.typedSequence = ""; //Restart
+		}
 	}
 
 	@Override

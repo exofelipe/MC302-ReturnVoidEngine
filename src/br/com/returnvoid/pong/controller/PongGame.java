@@ -3,19 +3,32 @@ package br.com.returnvoid.pong.controller;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
+import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.Console;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import br.com.returnvoid.pong.model.Ball;
+import br.com.returnvoid.pong.model.EasterEggBall;
 import br.com.returnvoid.pong.model.Paddle;
 import br.com.returnvoid.pong.model.Player;
 import br.com.returnvoid.pong.view.EndScreen;
+import br.com.returnvoid.returnengine.controller.EasterEgg;
 import br.com.returnvoid.returnengine.controller.Game;
 
 public class PongGame extends Game{
@@ -59,6 +72,13 @@ public class PongGame extends Game{
 		player1.setPoints(0);
 		player2.setPoints(0);
 		
+		EasterEgg egg = new EasterEgg("java", new Runnable() {
+			@Override
+			public void run() {
+				PongGame.this.balls.add(new EasterEggBall());
+			}
+		});
+		window.addKeyListener(egg);
 		window.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -101,7 +121,13 @@ public class PongGame extends Game{
 		paddle1.paint(g);
 		paddle2.paint(g);
 		
-		Font s = new Font("Gamer", Font.BOLD, 150);
+		InputStream is = getClass().getResourceAsStream("/resources/Gamer.ttf");
+		Font s;
+		try {
+			s = Font.createFont(Font.TRUETYPE_FONT, is);
+		} catch (FontFormatException | IOException e) {
+			s = new Font("Bitstream Charter", Font.BOLD, 30);
+		}
 		g.setFont(s);
 		g.setColor(Color.WHITE);
 		
@@ -129,17 +155,17 @@ public class PongGame extends Game{
 	Random random = new Random();
 	@Override
 	protected void onLoop() {
+		paddle1.y += paddle1.vy;
+		if(paddle1.y > this.window.getHeight()-paddle1.getBounds().getHeight() || paddle1.y < 30)
+			paddle1.y -= paddle1.vy;
 		
+		paddle2.y += paddle2.vy;
+		if(paddle2.y > this.window.getHeight()-paddle2.getBounds().getHeight() || paddle2.y < 30)
+			paddle2.y -= paddle2.vy;
 		for (Ball ball: balls) {
 			ball.x += ball.vx;
 			ball.y += ball.vy;
-			paddle1.y += paddle1.vy;
-			if(paddle1.y > this.window.getHeight()-paddle1.getBounds().getHeight() || paddle1.y < 30)
-				paddle1.y -= paddle1.vy;
-			
-			paddle2.y += paddle2.vy;
-			if(paddle2.y > this.window.getHeight()-paddle2.getBounds().getHeight() || paddle2.y < 30)
-				paddle2.y -= paddle2.vy;		
+					
 			
 			if(ball.checkColision(paddle1)) {
 				ball.vx *= -1;
@@ -180,7 +206,15 @@ public class PongGame extends Game{
 				ball.vx = (random.nextDouble() * 0.6) + 0.4 *(random.nextBoolean()? -1: 1);
 				ball.vy = random.nextDouble()/2;
 			}
-			
+		}
+		if(player1.getPoints() != p1 || player2.getPoints() != p2) {
+			System.out.println(player1.getNome()+" " + player1.getPoints());
+			System.out.println(player2.getNome()+" "+ player2.getPoints());
+			p1 = player1.getPoints();
+			p2 = player2.getPoints();
+		}
+		if(player1.getPoints() > 10 || player2.getPoints() > 10) {
+			this.stop();
 		}
 	}
 

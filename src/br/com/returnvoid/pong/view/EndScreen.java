@@ -23,10 +23,10 @@ public class EndScreen extends JFrame{
 	private JButton btnPlayAgain, btnExit, btnMenu;
 	public EndScreen(Player p1, Player p2) {
 		
-		ImageIcon score = new ImageIcon(getClass().getResource("scoreboard.png"));
-		ImageIcon menu = new ImageIcon(getClass().getResource("menu.png"));
-		ImageIcon buttonPlayAgain = new ImageIcon(getClass().getResource("again.png"));
-		ImageIcon buttonExit = new ImageIcon(getClass().getResource("exitButton.png"));
+		ImageIcon score = new ImageIcon(getClass().getResource("/resources/scoreboard.png"));
+		ImageIcon menu = new ImageIcon(getClass().getResource("/resources/menu.png"));
+		ImageIcon buttonPlayAgain = new ImageIcon(getClass().getResource("/resources/again.png"));
+		ImageIcon buttonExit = new ImageIcon(getClass().getResource("/resources/exitButton.png"));
 		this.setTitle("JAVA PONG - MC302 - ReturnVoid");
 		this.setLayout(new GridLayout(3, 1));
 		

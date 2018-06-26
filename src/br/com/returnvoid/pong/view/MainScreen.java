@@ -27,9 +27,9 @@ public class MainScreen extends JFrame{
 	private JTextField player1Name, player2Name;
 	private JButton btnStart, btnExit;
 	public MainScreen() {
-		ImageIcon logo = new ImageIcon(getClass().getResource("logo.png"));
-		ImageIcon buttonStart = new ImageIcon(getClass().getResource("playButton.png"));
-		ImageIcon buttonExit = new ImageIcon(getClass().getResource("exitButton.png"));
+		ImageIcon logo = new ImageIcon(getClass().getResource("/resources/logo.png"));
+		ImageIcon buttonStart = new ImageIcon(getClass().getResource("/resources/playButton.png"));
+		ImageIcon buttonExit = new ImageIcon(getClass().getResource("/resources/exitButton.png"));
 		this.setTitle("JAVA PONG - MC302 - ReturnVoid");
 		this.setLayout(new GridLayout(2, 1));
 		

@@ -25,7 +25,7 @@ public class Joystick implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("pressed "+e.getKeyCode());
+		//System.out.println("pressed "+e.getKeyCode());
 		if(this.buttons.containsKey(e.getKeyCode())) {
 			this.buttons.get(e.getKeyCode()).keyPressed(e);
 		}
@@ -33,7 +33,7 @@ public class Joystick implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		System.out.println("released "+e.getKeyCode());
+		//System.out.println("released "+e.getKeyCode());
 		if(this.buttons.containsKey(e.getKeyCode())) {
 			this.buttons.get(e.getKeyCode()).keyReleased(e);
 		}
