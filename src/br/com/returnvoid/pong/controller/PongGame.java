@@ -120,7 +120,6 @@ public class PongGame extends Game{
 		if(player1.getPoints() == 10 || player2.getPoints() == 10) {
 			this.stop();
 			super.window.dispose();
-			System.out.println("OLHA A ROLA");
 			EndScreen endScreen = new EndScreen(player1, player2);
 			endScreen.setSize(new Dimension(800, 600));
 			endScreen.setVisible(true);
