@@ -6,17 +6,17 @@ public class Player {
 	
 	public Player(String nome) {
 		this.setNome(nome);
-		points = 0;
+		this.points = 0;
 	}
 	
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	public int getPoints() {
-		return points;
+		return this.points;
 	}
 	public void setPoints(int points) {
 		this.points = points;
