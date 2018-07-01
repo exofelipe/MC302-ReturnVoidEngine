@@ -19,10 +19,10 @@ public class EasterEgg implements KeyListener{
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		System.out.println("Typed "+ typedSequence+ Character.toLowerCase(e.getKeyChar()));
+		//System.out.println("Typed "+ typedSequence+ Character.toLowerCase(e.getKeyChar()));
 		if(triggerSequence.startsWith(typedSequence + Character.toLowerCase(e.getKeyChar()))) {
 			typedSequence += e.getKeyChar();
-			System.out.println(typedSequence);
+			//System.out.println(typedSequence);
 			if(triggerSequence.equals(typedSequence)) {
 				new Thread(this.runnable).start();
 				typedSequence = "";
@@ -34,12 +34,9 @@ public class EasterEgg implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

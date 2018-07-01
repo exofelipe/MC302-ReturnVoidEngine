@@ -2,11 +2,8 @@ package br.com.returnvoid.pong.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,11 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import br.com.returnvoid.pong.controller.PongGame;
 import br.com.returnvoid.pong.model.Player;
 
+@SuppressWarnings("serial")
 public class MainScreen extends JFrame{
 	private JPanel pnlLogo, pnlPlayers;
 	private JTextField player1Name, player2Name;

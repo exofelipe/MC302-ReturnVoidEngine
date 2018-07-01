@@ -57,7 +57,6 @@ public abstract class Game{
 			Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		    g.setColor(Color.BLACK);
 		    g.fillRect(0, 0, window.getWidth(), window.getHeight());
-		    //g.fillRect(0, 0, 50, 100);
 		    this.onRender(g);
 		    g.setColor(Color.white);
 	        g.fillRect(0, 30, 60, 30);
@@ -99,13 +98,13 @@ public abstract class Game{
 		
 		private int max_fps;		
 		private double startTimeFps;
-		private long sleepTimeFps;
+		private double sleepTimeFps;
 		private double loopTimeFps;
 		private double expectedLoopTimeFps;
 		
 		private int expectedTps;		
 		private double startTimeTps;
-		private long sleepTimeTps;
+		private double sleepTimeTps;
 		private double loopTimeTps;
 		private double expectedLoopTimeTps;
 		
@@ -116,11 +115,11 @@ public abstract class Game{
 		}
 		
 		public int getTps() {				
-			return (int)(1/((this.loopTimeTps + this.sleepTimeTps)/this.MILI_SECOND));
+			return (int)(this.MILI_SECOND/((this.loopTimeTps + this.sleepTimeTps)));
 		}
 		
 		public int getFps() {			
-			return (int)(1/((this.loopTimeFps + this.sleepTimeFps)/this.MILI_SECOND));
+			return (int)(this.MILI_SECOND/((this.loopTimeFps + this.sleepTimeFps)));
 		}
 		
 		public void startFps() {
@@ -128,7 +127,7 @@ public abstract class Game{
 		}
 		
 		public void startTps() {
-			this.startTimeTps = System.currentTimeMillis();			
+			this.startTimeTps = System.currentTimeMillis();
 		}
 		
 		public void stopFps() {
@@ -141,11 +140,10 @@ public abstract class Game{
 		
 		public void ensureTps() {
 			this.expectedLoopTimeTps = (this.MILI_SECOND / this.expectedTps);
-			this.sleepTimeTps = Math.round((this.expectedLoopTimeTps - this.loopTimeTps));	
-			//System.out.println("loop: " + this.sleepTimeTps);
+			this.sleepTimeTps = (this.expectedLoopTimeTps - this.loopTimeTps);	
 			try {
 				if(this.sleepTimeTps > 0)		
-					Thread.sleep(this.sleepTimeTps);
+					Thread.sleep((long)Math.floor(this.sleepTimeTps));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -153,10 +151,10 @@ public abstract class Game{
 		
 		public void ensureFps() {
 			this.expectedLoopTimeFps = (this.MILI_SECOND / this.max_fps);	
-			this.sleepTimeFps =  Math.round((this.expectedLoopTimeFps - this.loopTimeFps));					
+			this.sleepTimeFps =  (this.expectedLoopTimeFps - this.loopTimeFps);					
 			try {
 				if(this.sleepTimeFps > 0)					
-					Thread.sleep(this.sleepTimeFps);				
+					Thread.sleep((long)Math.floor(this.sleepTimeFps));				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

@@ -1,19 +1,19 @@
 package br.com.returnvoid.pong.model;
 
 public class Player {
-	private String nome;
+	private String name;
 	private int points;
 	
-	public Player(String nome) {
-		this.setNome(nome);
+	public Player(String name) {
+		this.setName(name);
 		this.points = 0;
 	}
 	
-	public String getNome() {
-		return this.nome;
+	public String getName() {
+		return this.name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public int getPoints() {
 		return this.points;

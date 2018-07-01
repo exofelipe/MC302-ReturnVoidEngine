@@ -5,34 +5,27 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import br.com.returnvoid.returnengine.model.Entity;
 
 public class Ball extends Entity{
+	private Random random = new Random();
 	public Ball() {
 		this.setCoordinate(new Point(200, 200));
-		this.vx = 0.25;
-		this.vy = -0.25;
+		this.randomSpeed();
 		this.setDimension(new Dimension(10, 10));
 	}
-	//TODO tudo
+	public void randomSpeed() {
+		this.vx = ((random.nextDouble() * 0.4) + 0.2 )*(random.nextBoolean()? -1: 1);
+		this.vy = ((random.nextDouble() * 0.3) + 0.1 )*(random.nextBoolean()? -1: 1);
+	}
 	@Override
 	public void updateLogic() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void updateGraphic() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -48,7 +41,6 @@ public class Ball extends Entity{
 
 	@Override
 	public void paint(Graphics2D g) {
-		// TODO Auto-generated method stub
 		g.setColor(Color.WHITE);
 	    g.fillOval(this.getCoordinate().x, this.getCoordinate().y, 
 	    		this.getDimension().width, this.getDimension().height);

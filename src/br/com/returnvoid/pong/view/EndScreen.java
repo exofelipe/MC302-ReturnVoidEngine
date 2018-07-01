@@ -17,8 +17,9 @@ import javax.swing.JTextField;
 import br.com.returnvoid.pong.controller.PongGame;
 import br.com.returnvoid.pong.model.Player;
 
+@SuppressWarnings("serial")
 public class EndScreen extends JFrame{
-	private JPanel pnlScoreLogo, pnlPlayers, pnlButtons, pnlMenu;
+	private JPanel pnlScoreLogo, pnlPlayers, pnlButtons;
 	private JLabel player1Score, player2Score;
 	private JButton btnPlayAgain, btnExit, btnMenu;
 	public EndScreen(Player p1, Player p2) {
@@ -44,13 +45,9 @@ public class EndScreen extends JFrame{
 		pnlButtons.setLayout(new GridLayout(1,3));
 		pnlButtons.setBackground(Color.BLACK);
 		
-		if(p1.getPoints()==10) {
-			player1Score = new JLabel(p1.getNome() + " WON! ["+p1.getPoints()+" points]");
-			player2Score = new JLabel(p2.getNome() + " LOST! ["+p2.getPoints()+" points]");
-		}else {
-			player1Score = new JLabel(p1.getNome() + " LOST! ["+p1.getPoints()+" points]");
-			player2Score = new JLabel(p2.getNome() + " WON! ["+p2.getPoints()+" points]");
-		}
+		player1Score = new JLabel(p1.getName() + " "+(p1.getPoints()>p2.getPoints()? "WON": "LOST")+"! ["+p1.getPoints()+" points]");
+		player2Score = new JLabel(p2.getName() + " "+(p1.getPoints()<p2.getPoints()? "WON": "LOST")+"! ["+p2.getPoints()+" points]");
+		
 		//customizando JTextField
 		player1Score.setBackground(Color.BLACK);
 		player1Score.setBorder(null);
@@ -118,7 +115,7 @@ public class EndScreen extends JFrame{
 		btnExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				EndScreen.this.dispose();
 			}			
 		});
 		pnlButtons.add(btnExit);		

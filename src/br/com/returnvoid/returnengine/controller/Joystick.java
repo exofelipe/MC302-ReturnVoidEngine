@@ -4,11 +4,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 
-import javax.swing.JFrame;
-
 public class Joystick implements KeyListener{
 	private HashMap<Integer, KeyListener> buttons = new HashMap<Integer, KeyListener>();
-	
+	public final static int UP=38, DOWN = 40, W = 87, S = 83;
 	public void addButton(int key, KeyListener listener) {
 		this.buttons.put(key, listener);		
 	}
