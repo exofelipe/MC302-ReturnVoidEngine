@@ -17,11 +17,23 @@ import javax.swing.JTextField;
 import br.com.returnvoid.pong.controller.PongGame;
 import br.com.returnvoid.pong.model.Player;
 
+
+/*
+ * Classe que herda atributos da biblioteca JFrame para o uso de métodos da mesma.
+ * EndScreen é a tela que é exibida após o termino de uma partida.
+ * Diferentemente da MainScreen, a EndScreen possui três JPanels, um para a exibição do titulo "scoreboard",
+ * outra que contém a pontuação dos jogadores e qual deles foi vitorioso (exibidos em dois JLabels) e
+ * um ultimo onde foram colocados os botões de Exit, PlayAgain e Menu. 
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class EndScreen extends JFrame{
 	private JPanel pnlScoreLogo, pnlPlayers, pnlButtons;
 	private JLabel player1Score, player2Score;
 	private JButton btnPlayAgain, btnExit, btnMenu;
+	//Notar que a classe EndScreen recebe como parametro os dois jogadores da última partida,
+	//dessa forma podendo utilizar os resultados já gerados para imprimir nosso placar.
 	public EndScreen(Player p1, Player p2) {
 		
 		ImageIcon score = new ImageIcon(getClass().getResource("/resources/scoreboard.png"));
@@ -63,7 +75,7 @@ public class EndScreen extends JFrame{
 		
 		pnlPlayers.add(player1Score);
 		pnlPlayers.add(player2Score);		
-		
+		//Criando novo PongGame e iniciando novo jogo com novos jogadores
 		btnPlayAgain = new JButton();
 		btnPlayAgain.setIcon(buttonPlayAgain);
 		btnPlayAgain.setBackground(Color.BLACK);
@@ -87,7 +99,7 @@ public class EndScreen extends JFrame{
 		});
 		
 		pnlButtons.add(btnPlayAgain);
-		
+		//Criando novo MainScreen
 		btnMenu = new JButton();
 		btnMenu.setIcon(menu);
 		btnMenu.setBackground(Color.BLACK);
