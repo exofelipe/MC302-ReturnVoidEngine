@@ -9,36 +9,30 @@ import java.util.Random;
 
 import br.com.returnvoid.returnengine.model.Entity;
 
+/*
+ * Implementação de bola, subclasse de entidade
+ */
 public class Ball extends Entity{
+	private static final Dimension BALL_DIMENSION = new Dimension(10, 10);
 	private Random random = new Random();
 	public Ball() {
-		this.setCoordinate(new Point(200, 200));
 		this.randomSpeed();
-		this.setDimension(new Dimension(10, 10));
+		this.setDimension(BALL_DIMENSION);
 	}
+	
+	// Método para atribuir velocidade aleatória para a bola, note que um mínimo é necessário para não atrapalhar o jogo
 	public void randomSpeed() {
 		this.vx = ((random.nextDouble() * 0.4) + 0.2 )*(random.nextBoolean()? -1: 1);
 		this.vy = ((random.nextDouble() * 0.3) + 0.1 )*(random.nextBoolean()? -1: 1);
 	}
-	@Override
-	public void updateLogic() {
-	}
 
-	@Override
-	public void updateGraphic() {
-	}
-
+	// Verificando a colisão através da intersecção das fronteiras
 	@Override
 	public boolean checkColision(Entity entity) {
-		Rectangle r1 = this.getBounds();			
-		Rectangle r2 = entity.getBounds();
-			
-		if(r1.intersects(r2)) {
-			return true;
-		}				
-		return false;
+		return this.getBounds().intersects(entity.getBounds());
 	}
-
+	
+	// Desenhando entidade na tela. (Círculo branco)
 	@Override
 	public void paint(Graphics2D g) {
 		g.setColor(Color.WHITE);

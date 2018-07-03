@@ -4,7 +4,7 @@ import br.com.returnvoid.pong.view.MainScreen;
 
 public class Main {
 	/*
-	 * AHOI! WELCOME TO PONG GAME
+	 * AHOI! WELCOME TO RETURN VOID PONG GAME
 	 */
 	public static void main(String[] args) {
 		MainScreen sc = new MainScreen();

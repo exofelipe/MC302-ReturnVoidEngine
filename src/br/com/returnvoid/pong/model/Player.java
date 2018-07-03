@@ -1,5 +1,10 @@
 package br.com.returnvoid.pong.model;
 
+/*
+ * Classe base para guardar informações basicas do jogador.
+ * No exemplo, nome e pontos
+ */
+
 public class Player {
 	private String name;
 	private int points;

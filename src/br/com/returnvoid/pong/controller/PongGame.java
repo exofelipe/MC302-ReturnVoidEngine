@@ -23,21 +23,23 @@ import br.com.returnvoid.returnengine.controller.EasterEgg;
 import br.com.returnvoid.returnengine.controller.Game;
 import br.com.returnvoid.returnengine.controller.Joystick;
 
+/*
+ * Exemplo de implementação do Game da engine
+ * jogo PONG feito de maneira simplificada
+ */
 public class PongGame extends Game{
-	//Ball ball;
 	List<Ball> balls = new ArrayList<Ball>();
 	Paddle paddle1, paddle2;
 	Player player1, player2;
-	int p1;
-	int p2;	
 	Font font;
 	public static int MAX_POINTS = 40, MAX_FPS = 60, TPS = 500;
 	public PongGame(JFrame window, Player player1, Player player2) {
 		super(TPS, MAX_FPS, window);
 		this.player1 = player1;
 		this.player2 = player2;
+		
+		// Início em Thread para, de maneira assíncrona, iniciar o jogo e adicionar a primeira bola após 1 segundo
 		Thread tr = new Thread(new Runnable() {
-			
 			public void run() {
 				try {
 					Thread.sleep(1 * 1000);
@@ -49,13 +51,12 @@ public class PongGame extends Game{
 		});
 		tr.start();
 		
+		// Declarando os jogadores com os respectivos controles cima e baixo
 		paddle1 = new Paddle(Joystick.W, Joystick.S, 100, 100);
 		paddle2 = new Paddle(Joystick.UP, Joystick.DOWN, 700, 100);
-		p1 = 0;
-		p2 = 0;
+		// Adicionando as raquetes aos listeners da janela, para que possam receber eventos do teclado
 		window.addKeyListener(paddle1);
 		window.addKeyListener(paddle2);
-		
 		
 		player1.setPoints(0);
 		player2.setPoints(0);
@@ -134,6 +135,7 @@ public class PongGame extends Game{
 	
 	@Override
 	protected void onLoop() {
+		// Primeiro atualizando a posição das raquetes
 		paddle1.y += paddle1.vy;
 		if(paddle1.y > this.window.getHeight()-paddle1.getBounds().getHeight() || paddle1.y < 30)
 			paddle1.y -= paddle1.vy;
@@ -141,11 +143,15 @@ public class PongGame extends Game{
 		paddle2.y += paddle2.vy;
 		if(paddle2.y > this.window.getHeight()-paddle2.getBounds().getHeight() || paddle2.y < 30)
 			paddle2.y -= paddle2.vy;
+		
+		// Para cada bola em jogo
 		for (Ball ball: balls) {
+			// Atualizando posições
 			ball.x += ball.vx;
 			ball.y += ball.vy;
 					
 			
+			// Verificando colisões com as raquetes
 			if(ball.checkColision(paddle1)) {
 				ball.vx *= -1;
 				if(ball.vy > 0 && paddle1.vy > 0)
@@ -163,13 +169,16 @@ public class PongGame extends Game{
 					ball.vy -= 0.1;
 			}
 			
-			if(ball.y < 30) {
-				ball.y = 30;
+			// Verificando colisão com as bordas verticais da tela
+			if(ball.y <= 0) {
+				ball.y = 0;
 				ball.vy *= -1;
 			}else if(ball.y > this.window.getHeight()) {
 				ball.y = this.window.getHeight();
 				ball.vy *= -1;
 			}
+			
+			// Verificando colisão com bordas laterais (pontuação)
 			if(ball.x <= 0 || ball.x >=this.window.getWidth()) {
 			
 				if(ball.x <= 0) {
@@ -179,17 +188,15 @@ public class PongGame extends Game{
 					player1.setPoints(player1.getPoints() + 1);
 				}
 				
-				//Position on middle screen
+				// Inicia bola ao meio da tela
 				ball.x = this.window.getWidth() / 2;
 				ball.y = this.window.getHeight() / 2;
-				
+				// Velocidade x e y aleatórias
 				ball.randomSpeed();
 			}
 		}
-		if(player1.getPoints() != p1 || player2.getPoints() != p2) {
-			p1 = player1.getPoints();
-			p2 = player2.getPoints();
-		}
+		
+		// Condição de fim de jogo
 		if(player1.getPoints() > MAX_POINTS || player2.getPoints() > MAX_POINTS) {
 			this.stop();
 			super.window.dispose();

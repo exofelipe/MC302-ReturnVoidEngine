@@ -7,21 +7,27 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
+/*
+ * Classe Principal da engine
+ * 
+ * Note que essa classe é abstrata, subclasses devem herdar o construtor
+ * e declarar os métodos onLoop e onRender, responsáveis pela lógica específica
+ * do jogo e da lógica gráfica específica do jogo
+ */
 public abstract class Game{
 	private boolean running = false;
+	// Threads para controle dos loops lógico e gráfico
 	private Thread threadTps, threadFps;
+	// Janela onde será desenhado o jogo
 	protected JFrame window;
 	private GameSpeedTracker speedTracker;
 
 	public Game(int tps, int maxFps, JFrame window) {
 		this.speedTracker = new GameSpeedTracker(tps,maxFps);
 		this.window = window;
-		//this.window.setUndecorated(true);
-		//this.window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-		this.window.setIgnoreRepaint(true);
-		this.window.setLocation(100, 100);
-		//this.window.setVisible(true);
+		this.window.setIgnoreRepaint(true); // Como os elementos serão desenhados "na mão" isso pode atrapalhar o controle gráfico
 		
+		// Construindo thread com o loop lógico declarado a baixo
 		this.threadTps = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -29,6 +35,7 @@ public abstract class Game{
 			}
 		});
 		
+		// Construindo thread com o loop gráfico, declarado a baixo
 		this.threadFps = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -38,6 +45,7 @@ public abstract class Game{
 	}
 	
 	public void stop() {
+		// Condição de parada do loop, ambos devem ser finalizados quando essa flag for alterada
 		this.running = false;
 	}
 	
