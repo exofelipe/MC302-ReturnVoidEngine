@@ -3,6 +3,14 @@ package br.com.returnvoid.returnengine.controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
+/*
+ * Classe implementada com o objetivo de "ouvir" o teclado, esperando uma
+ * sequência de teclas (implementada como uma String) ser digitada, e então
+ * disparando um Runnable em uma Thread.
+ * 
+ * Na prática executa uma função de forma assíncrona caso a frase seja digitada
+ */
 public class EasterEgg implements KeyListener{
 	private String triggerSequence, typedSequence;
 	private Runnable runnable;

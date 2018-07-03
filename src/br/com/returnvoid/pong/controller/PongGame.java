@@ -61,6 +61,7 @@ public class PongGame extends Game{
 		player1.setPoints(0);
 		player2.setPoints(0);
 		
+		// Adicionando EasterEGG para adicionar uma bola especial (EasterEGGBall) quando a sequência java for digitada
 		EasterEgg egg = new EasterEgg("java", new Runnable() {
 			@Override
 			public void run() {				
@@ -68,40 +69,34 @@ public class PongGame extends Game{
 			}
 		});
 		window.addKeyListener(egg);
+		// Esse objeto é adicionado à janela que identifica o click do mouse, isso foi facilitado pela interface MouseListener
 		window.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent e) {}
 			
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mousePressed(MouseEvent e) {}
 			
 			@Override
-			public void mouseExited(MouseEvent e) {
-			}
+			public void mouseExited(MouseEvent e) {}
 			
 			@Override
-			public void mouseEntered(MouseEvent e) {				
-			}
+			public void mouseEntered(MouseEvent e) {}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				balls.add(new Ball());
+				balls.add(new Ball()); //Adicione nova bola no clique do mouse
 			}
 		});
 		
-		
+		// Carregamento da fonte para o placar
 		InputStream is = getClass().getResourceAsStream("/resources/Gamer.ttf");
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, is);
 			font = font.deriveFont(50F);
 		} catch (FontFormatException | IOException e) {
+			// Tratamento de exceção, carregue uma fonte menos legal
 			System.err.println("Error loading font");
 			font = new Font("Verdana", Font.BOLD, 30);
 		}
@@ -110,6 +105,7 @@ public class PongGame extends Game{
 
 	@Override
 	protected void onRender(Graphics2D g) {
+		// Desenhando as entidades na tela
 		for(Ball ball: balls)
 			ball.paint(g);
 		paddle1.paint(g);
@@ -119,18 +115,18 @@ public class PongGame extends Game{
 		g.setFont(this.font);
 		g.setColor(Color.WHITE);
 		
+		// Desenhando o score board na tela
 		String score = Integer.toString(player1.getPoints());
 		
 		g.drawString(score, 240, 125);
 		score = Integer.toString(player2.getPoints());	 
 		g.drawString(score, 520, 125);
 		
-		g.setFont(this.font);
 		
+		// Desenhando nome dos jogadores na tela
+		g.setFont(this.font);
 		g.drawString(player1.getName(),  75, 550);		
 		g.drawString(player2.getName(),  525, 550);
-		
-		
 	}
 	
 	@Override
