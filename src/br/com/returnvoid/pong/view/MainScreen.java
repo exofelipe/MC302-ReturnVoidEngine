@@ -17,6 +17,15 @@ import javax.swing.JTextField;
 import br.com.returnvoid.pong.controller.PongGame;
 import br.com.returnvoid.pong.model.Player;
 
+/*
+ * Classe que herda atributos da biblioteca JFrame para o uso de métodos da mesma.
+ * MainsScreen é a primeira tela que é vista quando o jogo é iniciado.
+ * Ela possui dois JPanels, um para a exibição do logo do Pong e a outra que contém, 
+ * além dos botões de Start e Exit,
+ * os espaços para inserir os nomes dos dois Players. 
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame{
 	private JPanel pnlLogo, pnlPlayers;
@@ -61,6 +70,8 @@ public class MainScreen extends JFrame{
 		btnStart.setBorderPainted(false);		
 		btnStart.setFocusPainted(false);
 		btnStart.setContentAreaFilled(false);
+		
+		//Note que o jogo só é iniciado quando o botão btnStart é pressionado
 		btnStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
