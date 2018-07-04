@@ -122,7 +122,7 @@ public abstract class Game{
 			this.max_fps = max_fps;
 		}
 		
-		public int getTps() {				
+		public int getTps() {			
 			return (int)(this.MILI_SECOND/((this.loopTimeTps + this.sleepTimeTps)));
 		}
 		
@@ -131,22 +131,28 @@ public abstract class Game{
 		}
 		
 		public void startFps() {
+			// Salvando o tempo de inicio do loop FPS
 			this.startTimeFps = System.currentTimeMillis();				
 		}
 		
 		public void startTps() {
+			// Salvando o tempo de inicio do loop TPS
 			this.startTimeTps = System.currentTimeMillis();
 		}
 		
 		public void stopFps() {
+			// Obtendo o tempo de execução do loop FPS
 			this.loopTimeFps = (System.currentTimeMillis() - this.startTimeFps);
 		}
 		
 		public void stopTps() {
+			// Obtendo o tempo de execução do loop TPS
 			this.loopTimeTps = (System.currentTimeMillis() - this.startTimeTps);
 		}
 		
 		public void ensureTps() {
+			// Dado o tempo de execução do loop TPS, calcula a diferença entre com o esperado e "pausa" 
+			// a thread o valor faltante
 			this.expectedLoopTimeTps = (this.MILI_SECOND / this.expectedTps);
 			this.sleepTimeTps = (this.expectedLoopTimeTps - this.loopTimeTps);	
 			try {
@@ -158,6 +164,8 @@ public abstract class Game{
 		}
 		
 		public void ensureFps() {
+			// Dado o tempo de execução do loop FPS, calcula a diferença entre com o esperado e "pausa" 
+			// a thread o valor faltante
 			this.expectedLoopTimeFps = (this.MILI_SECOND / this.max_fps);	
 			this.sleepTimeFps =  (this.expectedLoopTimeFps - this.loopTimeFps);					
 			try {
